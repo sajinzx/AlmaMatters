@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
+import LandingPage from './components/landerpage';
 
 function App() {
   return (
     <div className="App">
-      <p>This is for wd project</p>
+      <LandingPage/>
     </div>
   );
 }
