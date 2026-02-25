@@ -19,9 +19,8 @@ export default function LandingPage() {
 
         
         <nav className="nav-links">
-          <a href="#student-login">Student Login</a>
-          <a href="#alumni-login">Alumni Login</a>
-          <a href="#admin-login">Admin Login</a>
+          <a href="#login">Login</a>
+          <a href="#signup">SignUp</a>
           <a href="#about">About Us</a>
           <a href="#contact" className="contact-btn">Contact Us</a>
         </nav>

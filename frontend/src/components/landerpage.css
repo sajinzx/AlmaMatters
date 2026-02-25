@@ -1,10 +1,37 @@
+:root {
+
+  /* ========= COLOR VARIABLES ========= */
+
+  --alpine-green: #184d3b;
+  --creme: #cead6b;
+  --white: #ffffff;
+  --gold: #966919;
+
+  /* ========= GRADIENT VARIABLE ========= */
+
+  --nav-gradient: linear-gradient(
+    to right,
+    var(--alpine-green) 0%,
+    var(--creme) 100%
+  );
+
+  /* ========= BACKGROUND VARIABLE ========= */
+
+  --body-bg: var(--white);
+
+}
+
+
+/* PAGE */
 
 .page {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: var(--body-bg);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
 }
 
+
+/* HEADER / NAVBAR */
 
 .header {
   display: flex;
@@ -12,9 +39,13 @@
   align-items: center;
   padding: 16px 32px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  background-color:#966919;
+
+  /* APPLY GRADIENT HERE */
+  background: var(--nav-gradient);
 }
 
+
+/* LOGO SECTION */
 
 .logo-section {
   display: flex;
@@ -41,6 +72,10 @@
 .logoimg1{
     height: fit-content;
 }
+
+
+/* NAV LINKS */
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -55,19 +90,31 @@
 }
 
 .nav-links a:hover {
-  color: #ffffff;
+  color: var(--white);
 }
 
+
+/* CONTACT BUTTON */
+
 .contact-btn {
+
   padding: 8px 16px;
-  background-color: #ffffff;
-  color: #966919 !important;
+  background-color: var(--white);
+
+  color: var(--alpine-green) !important;
+
   border-radius: 8px;
 }
 
 .contact-btn:hover {
-  background-color: #000413;
+
+  background-color: var(--alpine-green);
+  color: var(--white) !important;
+
 }
+
+
+/* MAIN */
 
 .main {
   height: 80vh;
@@ -78,12 +125,17 @@
   color: #9ca3af;
 }
 
+
+/* FIRST PARA */
+
 .firstpara
 {
-    color: #966919;
+    color: var(--alpine-green);
     font-weight: 650;
     font-size: larger;
 }
+
+
 /* HERO IMAGE SLIDER */
 
 .heroimage {
@@ -95,33 +147,51 @@
   border-radius: 16px;
 }
 
+
 /* Slider container */
+
 .slider {
   display: flex;
   height: 100%;
   animation: slide 35s infinite linear;
 }
 
+
 /* Individual images */
+
 .slider img {
+
   width: 900px;
   height: 100%;
-  object-fit: cover;       /* 🔥 KEY LINE */
-  object-position: center; /* keeps focus centered */
+
+  object-fit: cover;
+
+  object-position: center;
+
   flex-shrink: 0;
+
 }
 
-/* Smooth right → left animation */
+
+/* Animation */
+
 @keyframes slide {
+
   0% {
     transform: translateX(0);
   }
+
   100% {
-    transform: translateX(-4500px); /* 900px × 5 images */
+    transform: translateX(-4500px);
   }
+
 }
 
-.trustedby
-{
+
+/* TRUSTED BY */
+
+.trustedby {
+
     display: flex;
+
 }
