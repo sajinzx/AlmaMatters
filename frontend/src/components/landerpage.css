@@ -4,7 +4,7 @@
 
   --alpine-green: #184d3b;
   --creme: #cead6b;
-  --white: #ffffff;
+  --white: #d5c4a1;
   --gold: #966919;
 
   /* ========= GRADIENT VARIABLE ========= */
@@ -194,4 +194,9 @@
 
     display: flex;
 
+}
+
+.collegelogos{
+  margin-left: 15px;
+  align-self: center;
 }
