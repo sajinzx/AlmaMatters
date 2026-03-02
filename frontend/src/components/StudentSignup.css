@@ -1,0 +1,117 @@
+.student-container{
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background: var(--nav-gradient);
+
+padding:40px;
+
+}
+
+
+
+.student-form{
+
+background: var(--white);
+
+padding:40px;
+
+width:600px;
+
+border-radius:12px;
+
+box-shadow:0px 8px 25px rgba(0,0,0,0.2);
+
+}
+
+
+
+.student-form h2{
+
+color: var(--alpine-green);
+
+text-align:center;
+
+margin-bottom:20px;
+
+}
+
+
+
+section{
+
+margin-bottom:20px;
+
+}
+
+
+
+section h3{
+
+color: var(--gold);
+
+margin-bottom:10px;
+
+}
+
+
+
+input,select{
+
+width:100%;
+
+padding:10px;
+
+margin-bottom:10px;
+
+border-radius:8px;
+
+border:1px solid var(--creme);
+
+}
+
+
+
+input:focus{
+
+outline:none;
+
+border:2px solid var(--alpine-green);
+
+}
+
+
+
+button{
+
+width:100%;
+
+padding:12px;
+
+background: var(--alpine-green);
+
+color: var(--white);
+
+border:none;
+
+border-radius:8px;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
+
+
+button:hover{
+
+background: var(--gold);
+
+}
