@@ -1,5 +1,6 @@
 import React from "react";
 import "./landerpage.css";
+import { Link } from "react-router-dom";
 import logoimg from "../assets/almamatterslogo.jpeg" 
 import heroimg1 from "../assets/heroimg1.jpeg"
 import heroimg2 from "../assets/heroimg2.jpeg"
@@ -23,11 +24,18 @@ export default function LandingPage() {
 
         
         <nav className="nav-links">
-          <a href="#login">Login</a>
-          <a href="#signup">SignUp</a>
-          <a href="#about">About Us</a>
-          <a href="#contact" className="contact-btn">Contact Us</a>
-        </nav>
+
+  <Link to="/login">Login</Link>
+
+  <Link to="/signup">SignUp</Link>
+
+  <Link to="/about">About Us</Link>
+
+  <Link to="/contact" className="contact-btn">
+    Contact Us
+  </Link>
+
+</nav>
       </header>
 
     
