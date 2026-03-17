@@ -1,245 +1,245 @@
-/* CONTAINER */
+/* ── Variables ──────────────────────────────────────────────── */
+:root {
+  --alpine-green: #1a5c45;
+  --gold: #c9933a;
+  --white: #ffffff;
+  --nav-gradient: linear-gradient(135deg, #1a5c45 0%, #2e8c6a 100%);
+  --creme: #ddd;
+}
 
-.student-container {
-
+/* ── Page wrapper ────────────────────────────────────────────── */
+.signup-page {
   min-height: 100vh;
-
   display: flex;
-
   justify-content: center;
-
-  align-items: center;
-
+  align-items: flex-start;
   background: var(--nav-gradient);
-
-  padding: 40px 20px;
-
+  padding: 40px 20px 60px;
 }
 
-
-
-/* FORM CARD */
-
-.student-form {
-
+/* ── Card ────────────────────────────────────────────────────── */
+.signup-card {
   background: var(--white);
-
-  padding: 40px;
-
+  padding: 36px 40px;
   width: 100%;
-
-  max-width: 650px;
-
-  border-radius: 16px;
-
-  box-shadow: 0px 12px 35px rgba(0, 0, 0, 0.18);
-
-  animation: fadeIn 0.4s ease;
-
+  max-width: 680px;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+  animation: slideUp 0.35s ease;
 }
 
-
-
-/* FADE ANIMATION */
-
-@keyframes fadeIn {
-
-  from {
-
-    opacity: 0;
-
-    transform: translateY(20px);
-
-  }
-
-  to {
-
-    opacity: 1;
-
-    transform: translateY(0);
-
-  }
-
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-
-
-/* TITLE */
-
-.student-form h2 {
-
+/* ── Title ───────────────────────────────────────────────────── */
+.signup-title {
   color: var(--alpine-green);
-
   text-align: center;
-
-  margin-bottom: 10px;
-
-  font-size: 28px;
-
+  font-size: 26px;
+  margin: 0 0 20px;
 }
 
-
-
-/* STEP HEADING */
-
-section h3 {
-
-  color: var(--gold);
-
-  margin-bottom: 15px;
-
-  margin-top: 20px;
-
-  font-size: 18px;
-
-  font-weight: 600;
-
+/* ── Step progress bar ───────────────────────────────────────── */
+.step-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  position: relative;
+  gap: 4px;
 }
 
-
-
-/* INPUT GROUP */
-
-input,
-select {
-
-  width: 50%;
-
-  padding: 12px 14px;
-
-  margin: 0 auto 14px auto;   /* THIS CENTERS INPUT */
-
-  display: block;             /* REQUIRED */
-
-  border-radius: 10px;
-
-  border: 1px solid var(--creme);
-
-  font-size: 14px;
-
-  transition: all 0.25s ease;
-
-  background-color: #fff;
-
+.step-bar::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 0;
 }
 
-
-
-/* INPUT FOCUS */
-
-input:focus,
-select:focus {
-
-  outline: none;
-
-  border: 2px solid var(--alpine-green);
-
-  box-shadow: 0 0 6px rgba(24, 77, 59, 0.25);
-
+.step-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
-
-
-/* PLACEHOLDER */
-
-input::placeholder {
-
-  color: #555;
-
-  opacity: 1;
-
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.3s, color 0.3s;
 }
 
+.step-dot-label {
+  font-size: 9px;
+  color: #aaa;
+  text-align: center;
+  white-space: nowrap;
+}
 
-
-/* BUTTON */
-
-button {
-
-  width: 50%;
-
-  padding: 14px;
-
-  margin: 0 auto 14px auto;   /* THIS CENTERS INPUT */
-
-  display: block;             /* REQUIRED */
-
+.step-dot-wrap.active .step-dot {
   background: var(--alpine-green);
-
-  color: var(--white);
-
-  border: none;
-
-  border-radius: 10px;
-
-  font-size: 16px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: all 0.3s ease;
-
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(26, 92, 69, 0.18);
 }
 
+.step-dot-wrap.active .step-dot-label { color: var(--alpine-green); font-weight: 600; }
 
-
-/* BUTTON HOVER */
-
-button:hover {
-
+.step-dot-wrap.done .step-dot {
   background: var(--gold);
+  color: #fff;
+}
 
+/* ── Error banner ────────────────────────────────────────────── */
+.error-banner {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-6px); }
+  75%       { transform: translateX(6px); }
+}
+
+/* ── Step body ───────────────────────────────────────────────── */
+.step-body section { margin-bottom: 10px; }
+
+.step-body h3 {
+  color: var(--alpine-green);
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 18px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e8f5f0;
+}
+
+/* ── Hint text inside a step ─────────────────────────────────── */
+.step-hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin: -8px 0 14px;
+  line-height: 1.4;
+}
+
+/* ── Field group (label + input) ─────────────────────────────── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 5px;
+}
+
+.required-star { color: #e74c3c; }
+
+.field-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #111;
+  background: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.field-input::placeholder { color: #9ca3af; opacity: 1; }
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--alpine-green);
+  box-shadow: 0 0 0 3px rgba(26, 92, 69, 0.12);
+  background: #fff;
+}
+
+/* ── Navigation buttons ──────────────────────────────────────── */
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-next {
+  flex: 1;
+  padding: 14px;
+  background: var(--alpine-green);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+
+.btn-next:hover:not(:disabled) {
+  background: var(--gold);
   transform: translateY(-2px);
-
-  box-shadow: 0px 6px 15px rgba(0,0,0,0.2);
-
 }
 
+.btn-next:disabled { opacity: 0.65; cursor: default; }
 
-
-/* BUTTON CLICK */
-
-button:active {
-
-  transform: scale(0.98);
-
+.btn-back {
+  padding: 14px 20px;
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
+.btn-back:hover:not(:disabled) { background: #e5e7eb; }
+.btn-back:disabled { opacity: 0.5; cursor: default; }
 
-
-/* SECTION SPACING */
-
-section {
-
-  margin-bottom: 25px;
-
+/* ── Success screen ──────────────────────────────────────────── */
+.success-section {
+  text-align: center;
+  padding: 30px 0;
 }
 
+.success-icon { font-size: 56px; margin-bottom: 12px; }
+.success-section h3 { color: var(--alpine-green); font-size: 22px; border: none; }
+.success-section p  { color: #555; font-size: 15px; }
 
-
-/* MOBILE RESPONSIVE */
-
-@media (max-width: 768px) {
-
-  .student-form {
-
-    padding: 25px;
-
-  }
-
-}
-
-
-
-/* SMALL MOBILE */
-
-@media (max-width: 480px) {
-
-  .student-form {
-
-    padding: 20px;
-
-  }
-
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .signup-card { padding: 22px 18px; }
+  .step-dot-label { display: none; }
+  .step-bar::before { top: 16px; }
 }

@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from './components/landerpage';
 import Signup from './components/Signup';
 import Login from './components/loginpage';
+import HomePage from './components/HomePage';
+import PlaceholderPage from './components/PlaceholderPage';
 
 import StudentSignup from './components/StudentSignup';
 import AlumniSignup from './components/AlumniSignup';
@@ -23,6 +25,17 @@ function App() {
 
           {/* Landing Page */}
           <Route path="/" element={<LandingPage />} />
+
+          {/* Home Page */}
+          <Route path="/home" element={<HomePage />} />
+
+          {/* Navigation Placeholders */}
+          <Route path="/search" element={<PlaceholderPage title="Search" />} />
+          <Route path="/messages" element={<PlaceholderPage title="Message Inbox" />} />
+          <Route path="/sessions" element={<PlaceholderPage title="Sessions" />} />
+          <Route path="/progress" element={<PlaceholderPage title="Progress" />} />
+          <Route path="/jobs" element={<PlaceholderPage title="Jobs" />} />
+          <Route path="/communities" element={<PlaceholderPage title="Communities" />} />
 
           {/* Login Page */}
           <Route path="/login" element={<Login />} />

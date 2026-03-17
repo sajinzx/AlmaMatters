@@ -350,3 +350,161 @@ account_status VARCHAR(50),
 FOREIGN KEY (admin_id) REFERENCES admins(admin_id) ON DELETE CASCADE
 
 );
+
+-- =============================================
+-- POSTS & FEED TABLES
+-- poster_type: 'student' | 'alumni' | 'admin'
+-- poster_id  : corresponding PK in that table
+-- =============================================
+
+CREATE TABLE posts (
+
+post_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+poster_type ENUM('student', 'alumni', 'admin') NOT NULL,
+
+poster_id BIGINT NOT NULL,
+
+content TEXT NOT NULL,
+
+media_url TEXT,
+
+like_count INT UNSIGNED DEFAULT 0,
+
+comment_count INT UNSIGNED DEFAULT 0,
+
+share_count INT UNSIGNED DEFAULT 0,
+
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+);
+
+-- Index for quick feed retrieval ordered by recency
+CREATE INDEX idx_posts_created_at ON posts(created_at DESC);
+
+-- =============================================
+-- POST LIKES
+-- One row per user-like on a post (prevents duplicates)
+-- =============================================
+
+CREATE TABLE post_likes (
+
+like_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+post_id BIGINT NOT NULL,
+
+liker_type ENUM('student', 'alumni', 'admin') NOT NULL,
+
+liker_id BIGINT NOT NULL,
+
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+UNIQUE KEY uq_post_like (post_id, liker_type, liker_id),
+
+FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
+
+);
+
+-- =============================================
+-- POST COMMENTS
+-- Supports nested replies via parent_comment_id
+-- =============================================
+
+CREATE TABLE post_comments (
+
+comment_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+post_id BIGINT NOT NULL,
+
+parent_comment_id BIGINT DEFAULT NULL,
+
+commenter_type ENUM('student', 'alumni', 'admin') NOT NULL,
+
+commenter_id BIGINT NOT NULL,
+
+content TEXT NOT NULL,
+
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
+
+FOREIGN KEY (parent_comment_id) REFERENCES post_comments(comment_id) ON DELETE CASCADE
+
+);
+
+CREATE INDEX idx_comments_post_id ON post_comments(post_id);
+
+-- =============================================
+-- POST SHARES
+-- Tracks who shared which post
+-- =============================================
+
+CREATE TABLE post_shares (
+
+share_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+post_id BIGINT NOT NULL,
+
+sharer_type ENUM('student', 'alumni', 'admin') NOT NULL,
+
+sharer_id BIGINT NOT NULL,
+
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
+
+);
+
+-- =============================================
+-- TRIGGERS: keep denormalised counts in sync
+-- =============================================
+
+DELIMITER $$
+
+CREATE TRIGGER trg_like_insert
+AFTER INSERT ON post_likes
+FOR EACH ROW
+BEGIN
+  UPDATE posts SET like_count = like_count + 1 WHERE post_id = NEW.post_id;
+END$$
+
+CREATE TRIGGER trg_like_delete
+AFTER DELETE ON post_likes
+FOR EACH ROW
+BEGIN
+  UPDATE posts SET like_count = GREATEST(like_count - 1, 0) WHERE post_id = OLD.post_id;
+END$$
+
+CREATE TRIGGER trg_comment_insert
+AFTER INSERT ON post_comments
+FOR EACH ROW
+BEGIN
+  UPDATE posts SET comment_count = comment_count + 1 WHERE post_id = NEW.post_id;
+END$$
+
+CREATE TRIGGER trg_comment_delete
+AFTER DELETE ON post_comments
+FOR EACH ROW
+BEGIN
+  UPDATE posts SET comment_count = GREATEST(comment_count - 1, 0) WHERE post_id = OLD.post_id;
+END$$
+
+CREATE TRIGGER trg_share_insert
+AFTER INSERT ON post_shares
+FOR EACH ROW
+BEGIN
+  UPDATE posts SET share_count = share_count + 1 WHERE post_id = NEW.post_id;
+END$$
+
+CREATE TRIGGER trg_share_delete
+AFTER DELETE ON post_shares
+FOR EACH ROW
+BEGIN
+  UPDATE posts SET share_count = GREATEST(share_count - 1, 0) WHERE post_id = OLD.post_id;
+END$$
+
+DELIMITER ;
