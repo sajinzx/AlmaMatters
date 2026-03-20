@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getApprovedSessions, requestSession } from "./api";
-import "./HomePage.css"; // Reuse styling
+import "./HomePage.css";
 import logo from '../assets/almamatterslogowithname.jpeg';
 
 function RequestSessionModal({ currentUser, onClose, onCreated }) {
@@ -14,7 +14,6 @@ function RequestSessionModal({ currentUser, onClose, onCreated }) {
   const handleSubmit = async () => {
     if (!title.trim() || !description.trim()) { setError("Title and description are required."); return; }
     if (!scheduledAt) { setError("Proposed date & time is required."); return; }
-    
     setLoading(true);
     try {
       await requestSession({
@@ -37,13 +36,13 @@ function RequestSessionModal({ currentUser, onClose, onCreated }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={e => e.stopPropagation()}>
         <h3>Request to Organize a Session</h3>
-        <input 
-          type="text" 
-          placeholder="Session Title" 
-          className="comment-input" 
+        <input
+          type="text"
+          placeholder="Session Title"
+          className="comment-input"
           style={{marginBottom: '10px'}}
-          value={title} 
-          onChange={e => setTitle(e.target.value)} 
+          value={title}
+          onChange={e => setTitle(e.target.value)}
         />
         <textarea
           className="post-textarea"
@@ -54,14 +53,13 @@ function RequestSessionModal({ currentUser, onClose, onCreated }) {
         />
         <div style={{marginTop: '10px'}}>
            <label style={{display:'block', marginBottom:'5px', fontSize:'0.9rem', color:'#64748B'}}>Proposed Date & Time</label>
-           <input 
-             type="datetime-local" 
-             className="comment-input" 
-             value={scheduledAt} 
-             onChange={e => setScheduledAt(e.target.value)} 
+           <input
+             type="datetime-local"
+             className="comment-input"
+             value={scheduledAt}
+             onChange={e => setScheduledAt(e.target.value)}
            />
         </div>
-        
         {error && <p className="error-msg">{error}</p>}
         <div className="modal-actions" style={{marginTop: '15px'}}>
           <button className="modal-cancel-btn" onClick={onClose}>Cancel</button>
@@ -76,6 +74,7 @@ function RequestSessionModal({ currentUser, onClose, onCreated }) {
 
 export default function Sessions() {
   const navigate = useNavigate();
+  const { username } = useParams();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -107,8 +106,8 @@ export default function Sessions() {
 
   const handleModalClose = () => setShowModal(false);
   const handleCreated = () => {
-     setSuccessMsg("Session request submitted successfully! Pending admin approval.");
-     setTimeout(() => setSuccessMsg(""), 5000);
+    setSuccessMsg("Session request submitted successfully! Pending admin approval.");
+    setTimeout(() => setSuccessMsg(""), 5000);
   };
 
   return (
@@ -121,15 +120,15 @@ export default function Sessions() {
           <h1 className="nav-title">AlmaMatters Sessions</h1>
         </div>
         <div className="nav-right">
-           <button className="icon-btn" title="Back to Home" onClick={() => navigate('/home')}>🏠</button>
+          <button className="icon-btn" title="Back to Home" onClick={() => navigate(`/${username}/home`)}>🏠</button>
         </div>
       </nav>
 
       <main className="feed-container">
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
             <h2>Upcoming Sessions</h2>
-            <button 
-               className="btn-primary" 
+            <button
+               className="btn-primary"
                style={{padding: '8px 16px', borderRadius: '8px'}}
                onClick={() => setShowModal(true)}
             >
@@ -163,29 +162,29 @@ export default function Sessions() {
 
       {/* Footer Navigation */}
       <footer className="bottom-nav">
-        <button className="bottom-nav-item" onClick={() => navigate('/sessions')} style={{color: '#3b82f6'}}>
+        <button className="bottom-nav-item" onClick={() => navigate(`/${username}/sessions`)} style={{color: '#3b82f6'}}>
           <span className="nav-icon">📅</span>
           <span>Sessions</span>
         </button>
-        <button className="bottom-nav-item" onClick={() => navigate('/progress')}>
+        <button className="bottom-nav-item" onClick={() => navigate(`/${username}/progress`)}>
           <span className="nav-icon">📈</span>
           <span>Progress</span>
         </button>
-        <button className="bottom-nav-item" onClick={() => navigate('/jobs')}>
+        <button className="bottom-nav-item" onClick={() => navigate(`/${username}/jobs`)}>
           <span className="nav-icon">💼</span>
           <span>Jobs</span>
         </button>
-        <button className="bottom-nav-item" onClick={() => navigate('/communities')}>
+        <button className="bottom-nav-item" onClick={() => navigate(`/${username}/communities`)}>
           <span className="nav-icon">🏘️</span>
           <span>Communities</span>
         </button>
       </footer>
 
       {showModal && (
-        <RequestSessionModal 
-           currentUser={currentUser} 
-           onClose={handleModalClose} 
-           onCreated={handleCreated} 
+        <RequestSessionModal
+           currentUser={currentUser}
+           onClose={handleModalClose}
+           onCreated={handleCreated}
         />
       )}
     </div>

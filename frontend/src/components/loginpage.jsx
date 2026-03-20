@@ -51,7 +51,7 @@ export default function Login() {
         avatar: user.avatar,
         username: user.username
       }));
-      navigate("/home");
+      navigate(`/${user.username}/home`);
     } catch (e) {
       setError(e?.response?.data?.message || "Login failed. Please try again.");
     } finally {
@@ -84,7 +84,7 @@ export default function Login() {
         avatar: user.avatar,
         username: user.username
       }));
-      navigate("/home"); // ← FIXED: now redirects to home, not profile
+      navigate(`/${user.username}/home`);
     } catch (e) {
       setError(e?.response?.data?.message || "Invalid OTP.");
     } finally {

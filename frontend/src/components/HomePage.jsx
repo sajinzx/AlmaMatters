@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // ← import useNavigate
+import { useNavigate, useParams } from 'react-router-dom';
 import './HomePage.css';
 import logo from '../assets/almamatterslogowithname.jpeg';
 import { getFeed, createPost, likePost, unlikePost, getComments, addComment, sharePost } from './api';
@@ -248,7 +248,8 @@ function CreatePostModal({ currentUser, onClose, onCreated }) {
 
 // ── HomePage ──────────────────────────────────────────────────
 export default function HomePage() {
-  const navigate = useNavigate(); // ← define navigate
+  const navigate = useNavigate();
+  const { username } = useParams(); // get username from URL
   const [profilePic, setProfilePic] = useState(() => sessionStorage.getItem('profilePic') || null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -356,8 +357,8 @@ export default function HomePage() {
         </div>
 
         <div className="nav-right">
-          <button className="icon-btn" title="Search" onClick={() => navigate('/search')}>🔍</button>
-          <button className="icon-btn" title="Messages" onClick={() => navigate('/messages')}>✉️</button>
+          <button className="icon-btn" title="Search" onClick={() => navigate(`/${username}/search`)}>🔍</button>
+          <button className="icon-btn" title="Messages" onClick={() => navigate(`/${username}/messages`)}>✉️</button>
           <button className="icon-btn" title="Logout" onClick={handleLogout} style={{ fontSize: '1.2rem' }}>🚪</button>
         </div>
       </nav>
@@ -399,11 +400,11 @@ export default function HomePage() {
 
       {/* Footer Navigation */}
       <footer className="bottom-nav">
-        <button className="bottom-nav-item" onClick={() => navigate('/sessions')}>
+        <button className="bottom-nav-item" onClick={() => navigate(`/${username}/sessions`)}>
           <span className="nav-icon">📅</span>
           <span>Sessions</span>
         </button>
-        <button className="bottom-nav-item" onClick={() => navigate('/progress')}>
+        <button className="bottom-nav-item" onClick={() => navigate(`/${username}/progress`)}>
           <span className="nav-icon">📈</span>
           <span>Progress</span>
         </button>
@@ -411,11 +412,11 @@ export default function HomePage() {
           <span className="nav-icon add-icon">➕</span>
           <span>Post</span>
         </button>
-        <button className="bottom-nav-item" onClick={() => navigate('/jobs')}>
+        <button className="bottom-nav-item" onClick={() => navigate(`/${username}/jobs`)}>
           <span className="nav-icon">💼</span>
           <span>Jobs</span>
         </button>
-        <button className="bottom-nav-item" onClick={() => navigate('/communities')}>
+        <button className="bottom-nav-item" onClick={() => navigate(`/${username}/communities`)}>
           <span className="nav-icon">🏘️</span>
           <span>Communities</span>
         </button>
