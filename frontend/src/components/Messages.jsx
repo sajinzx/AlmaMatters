@@ -13,8 +13,9 @@ import logo from "../assets/almamatterslogowithname.jpeg";
 function Avatar({ name, photo, size = 40 }) {
   const colors = ["#1c65a0","#0d7a5f","#7c3aed","#b45309","#0e7490"];
   const idx    = name ? name.charCodeAt(0) % colors.length : 0;
+  const API_BASE = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL.replace('/api', '') : 'http://localhost:3000';
   if (photo) return (
-    <img src={photo.startsWith("http") ? photo : `http://localhost:3000${photo}`}
+    <img src={photo.startsWith("http") ? photo : `${API_BASE}${photo}`}
       alt={name} className="msg-avatar-img"
       style={{ width: size, height: size }}
       onError={e => { e.target.style.display = "none"; }} />

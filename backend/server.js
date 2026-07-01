@@ -61,9 +61,10 @@ res.send("AlmaMatters API Running");
 
 const PORT = process.env.PORT || 3000;
 
+const initDb = require('./initDb');
 
-app.listen(PORT, () =>
-
-console.log(`Server running on port ${PORT}`)
-
-);
+initDb().then(() => {
+  app.listen(PORT, () =>
+    console.log(`Server running on port ${PORT}`)
+  );
+});

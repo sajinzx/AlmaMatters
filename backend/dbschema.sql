@@ -1,8 +1,4 @@
--- Drop database if exists (optional – comment out if you don't want to lose data)
-DROP DATABASE IF EXISTS almamatters;
-CREATE DATABASE almamatters;
-USE almamatters;
-
+-- Schema setup starts below
 -- =============================================
 -- STUDENTS
 -- =============================================

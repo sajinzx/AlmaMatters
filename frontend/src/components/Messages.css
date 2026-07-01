@@ -1,22 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
 
 /* ══════════════════════════════════════════
-   VARIABLES
+   VARIABLES & IMPORTS
 ══════════════════════════════════════════ */
+/* Fonts are imported in index.css (Inter, Outfit) */
+
 :root {
-  --mid-blue:      #131e30;
-  --denim-blue:    #1c65a0;
-  --ocean-blue:    #8fb6d8;
-  --white:         #ffffff;
-  --bg:            #0d1520;
-  --card:          #111c2e;
-  --border:        rgba(143,182,216,0.10);
-  --border-strong: rgba(143,182,216,0.22);
-  --t1: #ddeaf8;
-  --t2: #8fb6d8;
-  --t3: rgba(143,182,216,0.50);
-  --t4: rgba(143,182,216,0.26);
-  --nav-h: 58px;
+  --bg:            var(--primary-dark, #0f172a);
+  --card:          rgba(19, 30, 48, 0.65);
+  --card-hover:    rgba(19, 30, 48, 0.85);
+  --border:        rgba(143,182,216,0.15);
+  --border-strong: rgba(143,182,216,0.30);
+  --t1: #f1f5f9;
+  --t2: #cbd5e1;
+  --t3: #94a3b8;
+  --t4: #64748b;
+  --nav-h: 68px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

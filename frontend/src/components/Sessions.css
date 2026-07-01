@@ -1,26 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
 
 /* ══════════════════════════════════════════
-   VARIABLES
+   VARIABLES & IMPORTS
 ══════════════════════════════════════════ */
+/* Fonts are imported in index.css (Inter, Outfit) */
+
 :root {
-  --mid-blue:      #131e30;
-  --denim-blue:    #1c65a0;
-  --ocean-blue:    #8fb6d8;
-  --white:         #ffffff;
-  --bg:            #0d1520;
+  --bg:            var(--primary-dark, #0f172a);
   --bg-2:          #0a1120;
-  --card:          #111c2e;
-  --border:        rgba(143,182,216,0.10);
-  --border-strong: rgba(143,182,216,0.22);
-  --t1: #ddeaf8;
-  --t2: #8fb6d8;
-  --t3: rgba(143,182,216,0.50);
-  --t4: rgba(143,182,216,0.26);
-  --nav-h: 58px;
-  --approved-color: #34d399;
-  --pending-color:  #fbbf24;
-  --rejected-color: #f87171;
+  --card:          rgba(19, 30, 48, 0.65);
+  --card-hover:    rgba(19, 30, 48, 0.85);
+  --border:        rgba(143,182,216,0.15);
+  --border-strong: rgba(143,182,216,0.30);
+  --t1: #f1f5f9;
+  --t2: #cbd5e1;
+  --t3: #94a3b8;
+  --t4: #64748b;
+  --nav-h: 68px;
+  --approved-color: #10b981;
+  --pending-color:  #f59e0b;
+  --rejected-color: #ef4444;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -256,19 +255,23 @@
 ══════════════════════════════════════════ */
 .session-card {
   background: var(--card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 20px;
   margin-bottom: 14px;
   display: flex; gap: 18px; align-items: flex-start;
   position: relative; overflow: hidden;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  animation: fadeUp 0.25s ease both;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeUp 0.3s ease both;
+  box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1));
 }
 .session-card:hover {
+  background: var(--card-hover);
   border-color: var(--border-strong);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(143,182,216,0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(143,182,216,0.1);
 }
 
 /* left accent strip */
