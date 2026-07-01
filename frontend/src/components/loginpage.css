@@ -1,11 +1,8 @@
-/* ── Shared variables ──────────────────────────────────────────
+/* ── Shared variables ────────────────────────────────────────── */
 :root {
-  /* --alpine-green: #1a5c45;
-  --gold:         #c9933a;
-  --white:        #ffffff; */
-  --alphine-green:   #131e30;
+  --alphine-green: #131e30;
   --gold: #1c65a0;
-  --white:      #ffffff;
+  --white: #ffffff;
   --nav-gradient: linear-gradient(90deg, #0f2027, #2c5364);
 }
 
