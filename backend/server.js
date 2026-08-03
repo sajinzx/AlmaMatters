@@ -47,12 +47,31 @@ app.use("/api/communities", require('./routes/communityRoutes'));
 
 
 
-// TEST ROUTE
+// TEST & HEALTH ROUTES
+const db = require('./database');
 
-app.get("/", (req,res)=>{
+app.get("/", (req, res) => {
+  res.send("AlmaMatters API Running");
+});
 
-res.send("AlmaMatters API Running");
-
+app.get("/api/health", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT NOW() as db_time");
+    res.json({
+      status: "ok",
+      database: "connected",
+      message: "AlmaMatters API & PostgreSQL Database Online",
+      time: rows[0].db_time
+    });
+  } catch (err) {
+    console.error("Health check error:", err);
+    res.status(500).json({
+      status: "error",
+      database: "disconnected",
+      message: "Database connection failed",
+      error: err.message
+    });
+  }
 });
 
 
