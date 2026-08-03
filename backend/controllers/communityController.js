@@ -4,11 +4,11 @@ const db = require('../database');
 async function getUserInfo(userType, userId) {
     let query, params;
     if (userType === 'student') {
-        query = `SELECT COALESCE(full_name, CONCAT(first_name,' ',IFNULL(last_name,''))) AS name, profile_photo_url FROM student_personal_details WHERE student_id = ?`;
+        query = `SELECT COALESCE(full_name, CONCAT(first_name,' ',COALESCE(last_name,''))) AS name, profile_photo_url FROM student_personal_details WHERE student_id = ?`;
     } else if (userType === 'alumni') {
-        query = `SELECT COALESCE(spd.full_name, CONCAT(spd.first_name,' ',IFNULL(spd.last_name,''))) AS name, spd.profile_photo_url FROM alumni a JOIN student_personal_details spd ON spd.student_id = a.student_id WHERE a.alumni_id = ?`;
+        query = `SELECT COALESCE(spd.full_name, CONCAT(spd.first_name,' ',COALESCE(spd.last_name,''))) AS name, spd.profile_photo_url FROM alumni a JOIN student_personal_details spd ON spd.student_id = a.student_id WHERE a.alumni_id = ?`;
     } else {
-        query = `SELECT COALESCE(full_name, CONCAT(first_name,' ',IFNULL(last_name,''))) AS name, profile_photo_url FROM admin_personal_details WHERE admin_id = ?`;
+        query = `SELECT COALESCE(full_name, CONCAT(first_name,' ',COALESCE(last_name,''))) AS name, profile_photo_url FROM admin_personal_details WHERE admin_id = ?`;
     }
     const [rows] = await db.query(query, [userId]);
     return rows[0] || { name: 'Unknown User', profile_photo_url: null };

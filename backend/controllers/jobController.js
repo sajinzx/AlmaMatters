@@ -5,7 +5,7 @@ exports.getActiveJobs = async (req, res) => {
   try {
     const query = `
       SELECT j.*, 
-             COALESCE(spd.full_name, CONCAT(spd.first_name, ' ', IFNULL(spd.last_name, ''))) AS poster_name,
+             COALESCE(spd.full_name, CONCAT(spd.first_name, ' ', COALESCE(spd.last_name, ''))) AS poster_name,
              spd.profile_photo_url AS poster_avatar,
              apd.company_name, apd.job_title AS poster_title
       FROM jobs j
@@ -81,7 +81,7 @@ exports.applyForJob = async (req, res) => {
 
     res.status(201).json({ success: true, application_id: result.insertId });
   } catch (err) {
-    if (err.code === 'ER_DUP_ENTRY') {
+    if (err.code === 'ER_DUP_ENTRY' || err.code === '23505') {
       return res.status(400).json({ success: false, message: 'You have already applied for this job' });
     }
     console.error('applyForJob error:', err);
@@ -95,7 +95,7 @@ exports.getJobApplications = async (req, res) => {
     const { jobId } = req.params;
     const query = `
       SELECT ja.*,
-             COALESCE(spd.full_name, CONCAT(spd.first_name, ' ', IFNULL(spd.last_name, ''))) AS applicant_name,
+             COALESCE(spd.full_name, CONCAT(spd.first_name, ' ', COALESCE(spd.last_name, ''))) AS applicant_name,
              spd.profile_photo_url AS applicant_avatar,
              scd.email AS applicant_email,
              scd.phone_number AS applicant_phone,
@@ -109,7 +109,7 @@ exports.getJobApplications = async (req, res) => {
     // Let's do a smarter query that handles this uniformly since alumni are just graduated students with an alumni_id that points to student_id.
     const improvedQuery = `
       SELECT ja.*,
-             COALESCE(spd.full_name, CONCAT(spd.first_name, ' ', IFNULL(spd.last_name, ''))) AS applicant_name,
+             COALESCE(spd.full_name, CONCAT(spd.first_name, ' ', COALESCE(spd.last_name, ''))) AS applicant_name,
              spd.profile_photo_url AS applicant_avatar,
              scd.email AS applicant_email,
              scd.phone_number AS applicant_phone,

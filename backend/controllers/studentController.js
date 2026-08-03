@@ -1,15 +1,15 @@
 const db = require("../database");
 const bcrypt = require("bcryptjs");
 
-// Friendly MySQL error messages
+// Friendly error messages (MySQL & PostgreSQL compatible)
 function friendlyError(err) {
-    if (err.code === "ER_DUP_ENTRY") {
-        const field = (err.sqlMessage || "").match(/for key '(.+?)'/)?.[1] || "";
-        if (field.includes("roll_number")) return "That roll number is already registered.";
-        if (field.includes("username"))    return "That username is already taken. Please choose another.";
-        if (field.includes("email"))       return "That email address is already in use.";
-        if (field.includes("aadhaar"))     return "That Aadhaar number is already registered.";
-        if (field.includes("pan"))         return "That PAN number is already registered.";
+    if (err.code === "ER_DUP_ENTRY" || err.code === "23505") {
+        const text = ((err.detail || "") + " " + (err.sqlMessage || "") + " " + (err.message || "")).toLowerCase();
+        if (text.includes("roll_number")) return "That roll number is already registered.";
+        if (text.includes("username"))    return "That username is already taken. Please choose another.";
+        if (text.includes("email"))       return "That email address is already in use.";
+        if (text.includes("aadhaar"))     return "That Aadhaar number is already registered.";
+        if (text.includes("pan"))         return "That PAN number is already registered.";
         return "A duplicate entry was detected. Please check your inputs.";
     }
     return err.message || "An unexpected error occurred. Please try again.";

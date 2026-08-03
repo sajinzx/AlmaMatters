@@ -4,7 +4,7 @@ const db = require('../database');
 async function getUserDisplayName(type, id) {
   if (type === 'student') {
     const [rows] = await db.query(
-      `SELECT COALESCE(full_name, CONCAT(first_name,' ',IFNULL(last_name,''))) AS name,
+      `SELECT COALESCE(full_name, CONCAT(first_name,' ',COALESCE(last_name,''))) AS name,
               profile_photo_url
        FROM student_personal_details WHERE student_id = ?`,
       [id]
@@ -13,7 +13,7 @@ async function getUserDisplayName(type, id) {
   }
   if (type === 'alumni') {
     const [rows] = await db.query(
-      `SELECT COALESCE(spd.full_name, CONCAT(spd.first_name,' ',IFNULL(spd.last_name,''))) AS name,
+      `SELECT COALESCE(spd.full_name, CONCAT(spd.first_name,' ',COALESCE(spd.last_name,''))) AS name,
               spd.profile_photo_url
        FROM alumni a
        JOIN student_personal_details spd ON spd.student_id = a.student_id

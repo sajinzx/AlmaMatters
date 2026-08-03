@@ -3,19 +3,19 @@ const db = require('../database');
 async function getPosterName(posterType, posterId) {
   let query, params;
   if (posterType === 'student') {
-    query = `SELECT COALESCE(full_name, CONCAT(first_name,' ',IFNULL(last_name,''))) AS name,
+    query = `SELECT COALESCE(full_name, CONCAT(first_name,' ',COALESCE(last_name,''))) AS name,
                     profile_photo_url
              FROM student_personal_details WHERE student_id = ?`;
     params = [posterId];
   } else if (posterType === 'alumni') {
-    query = `SELECT COALESCE(spd.full_name, CONCAT(spd.first_name,' ',IFNULL(spd.last_name,''))) AS name,
+    query = `SELECT COALESCE(spd.full_name, CONCAT(spd.first_name,' ',COALESCE(spd.last_name,''))) AS name,
                     spd.profile_photo_url
              FROM alumni a
              JOIN student_personal_details spd ON spd.student_id = a.student_id
              WHERE a.alumni_id = ?`;
     params = [posterId];
   } else {
-    query = `SELECT COALESCE(full_name, CONCAT(first_name,' ',IFNULL(last_name,''))) AS name,
+    query = `SELECT COALESCE(full_name, CONCAT(first_name,' ',COALESCE(last_name,''))) AS name,
                     profile_photo_url
              FROM admin_personal_details WHERE admin_id = ?`;
     params = [posterId];
@@ -136,7 +136,7 @@ exports.likePost = async (req, res) => {
       return res.status(400).json({ success: false, message: 'liker_type and liker_id required' });
     }
     await db.execute(
-      'INSERT IGNORE INTO post_likes (post_id, liker_type, liker_id) VALUES (?, ?, ?)',
+      'INSERT INTO post_likes (post_id, liker_type, liker_id) VALUES (?, ?, ?) ON CONFLICT (post_id, liker_type, liker_id) DO NOTHING',
       [postId, liker_type, liker_id]
     );
     const [[{ like_count }]] = await db.execute('SELECT like_count FROM posts WHERE post_id = ?', [postId]);

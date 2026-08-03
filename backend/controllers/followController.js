@@ -4,14 +4,14 @@ const db = require('../database');
 async function getUserBasicDetails(userType, userId) {
   let query, params;
   if (userType === 'student') {
-    query = `SELECT s.student_id as id, sla.username, COALESCE(spd.full_name, CONCAT(spd.first_name,' ',IFNULL(spd.last_name,''))) AS name, spd.profile_photo_url, 'student' as type
+    query = `SELECT s.student_id as id, sla.username, COALESCE(spd.full_name, CONCAT(spd.first_name,' ',COALESCE(spd.last_name,''))) AS name, spd.profile_photo_url, 'student' as type
              FROM students s
              JOIN student_login_accounts sla ON sla.student_id = s.student_id
              JOIN student_personal_details spd ON spd.student_id = s.student_id
              WHERE s.student_id = ?`;
     params = [userId];
   } else if (userType === 'alumni') {
-    query = `SELECT a.alumni_id as id, ala.username, COALESCE(spd.full_name, CONCAT(spd.first_name,' ',IFNULL(spd.last_name,''))) AS name, spd.profile_photo_url, 'alumni' as type
+    query = `SELECT a.alumni_id as id, ala.username, COALESCE(spd.full_name, CONCAT(spd.first_name,' ',COALESCE(spd.last_name,''))) AS name, spd.profile_photo_url, 'alumni' as type
              FROM alumni a
              JOIN alumni_login_accounts ala ON ala.alumni_id = a.alumni_id
              JOIN student_personal_details spd ON spd.student_id = a.student_id
@@ -203,7 +203,7 @@ exports.searchUsers = async (req, res) => {
     const searchTerm = `%${q}%`;
     
     const [students] = await db.execute(`
-      SELECT s.student_id as id, 'student' as type, sla.username, COALESCE(spd.full_name, CONCAT(spd.first_name,' ',IFNULL(spd.last_name,''))) AS name, spd.profile_photo_url
+      SELECT s.student_id as id, 'student' as type, sla.username, COALESCE(spd.full_name, CONCAT(spd.first_name,' ',COALESCE(spd.last_name,''))) AS name, spd.profile_photo_url
       FROM students s
       JOIN student_login_accounts sla ON sla.student_id = s.student_id
       JOIN student_personal_details spd ON spd.student_id = s.student_id
@@ -213,7 +213,7 @@ exports.searchUsers = async (req, res) => {
     `, [searchTerm, searchTerm, searchTerm, searchTerm, searchTerm]);
 
     const [alumni] = await db.execute(`
-      SELECT a.alumni_id as id, 'alumni' as type, ala.username, COALESCE(spd.full_name, CONCAT(spd.first_name,' ',IFNULL(spd.last_name,''))) AS name, spd.profile_photo_url
+      SELECT a.alumni_id as id, 'alumni' as type, ala.username, COALESCE(spd.full_name, CONCAT(spd.first_name,' ',COALESCE(spd.last_name,''))) AS name, spd.profile_photo_url
       FROM alumni a
       JOIN alumni_login_accounts ala ON ala.alumni_id = a.alumni_id
       JOIN student_personal_details spd ON spd.student_id = a.student_id

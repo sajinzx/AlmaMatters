@@ -3,9 +3,10 @@ const bcrypt = require("bcryptjs");
 
 // Helper for friendly error messages
 function friendlyError(err) {
-    if (err.code === "ER_DUP_ENTRY") {
-        if (err.sqlMessage.includes("employee_id")) return "Employee ID already exists.";
-        if (err.sqlMessage.includes("username")) return "Username already taken.";
+    if (err.code === "ER_DUP_ENTRY" || err.code === "23505") {
+        const msg = (err.detail || err.sqlMessage || err.message || "").toLowerCase();
+        if (msg.includes("employee_id")) return "Employee ID already exists.";
+        if (msg.includes("username")) return "Username already taken.";
         return "Duplicate entry. Please check your data.";
     }
     return err.message || "Database error occurred.";
